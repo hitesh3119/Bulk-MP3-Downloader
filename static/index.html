@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulk MP3 Downloader — Studio 320kbps</title>
+    <meta name="description" content="Free, fast, open-source Bulk MP3 Downloader Studio. Download 100+ songs simultaneously with 320kbps high-quality audio, multi-threading, auto track numbering, and zero ads.">
+    <meta name="keywords" content="bulk mp3 downloader, youtube to mp3 bulk, batch mp3 download, 320kbps mp3 converter, fast mp3 downloader, open source music downloader, songs bulk downloader, netlify mp3 downloader">
+    <meta name="author" content="Hitesh Khambhoo (https://hiteshkhambhoo.in)">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#060913">
+    <link rel="canonical" href="https://bulk-mp3-downloader.netlify.app/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bulk-mp3-downloader.netlify.app/">
+    <meta property="og:title" content="Bulk MP3 Downloader Studio — 320kbps High Fidelity Batch Audio Downloader">
+    <meta property="og:description" content="Download entire playlists or hundreds of songs in bulk with multi-threading, 320kbps crystal-clear MP3 conversion, and zero ads. Created by Hitesh Khambhoo.">
+    <meta property="og:image" content="https://bulk-mp3-downloader.netlify.app/og-image.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://bulk-mp3-downloader.netlify.app/">
+    <meta name="twitter:title" content="Bulk MP3 Downloader Studio — 320kbps Batch Audio">
+    <meta name="twitter:description" content="Fast, concurrent bulk MP3 downloader tool with auto track numbering and zero ads. Developed by Hitesh Khambhoo.">
+
+    <!-- Structured Data (JSON-LD) for Search Engines -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Bulk MP3 Downloader Studio",
+      "url": "https://bulk-mp3-downloader.netlify.app/",
+      "description": "High-speed multi-threaded batch MP3 audio downloader and converter with 320kbps audio quality and clean ad-free interface.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "All",
+      "author": {
+        "@type": "Person",
+        "name": "Hitesh Khambhoo",
+        "url": "https://hiteshkhambhoo.in"
+      },
+      "creator": {
+        "@type": "Person",
+        "name": "Hitesh Khambhoo",
+        "url": "https://hiteshkhambhoo.in"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <div class="container">
+        <!-- Cloud Banner (Shown on Netlify/Cloud) -->
+        <div class="cloud-banner" id="cloudBanner" style="display: none;">
+            <div class="banner-icon">🌐</div>
+            <div class="banner-content">
+                <div class="banner-title">Netlify Web Interface Live</div>
+                <p>Netlify sirf frontend host karta hai. Audio stream extract & 320kbps MP3 convert karne ke liye Python engine (yt-dlp + FFmpeg) chahiye. Apne PC par chalane ke liye <b>start_downloader.bat</b> use karein ya niche apna backend URL connect karein:</p>
+                <div class="backend-connect-row">
+                    <input type="text" id="backendUrlInput" placeholder="http://127.0.0.1:5000 or Render backend URL...">
+                    <button type="button" class="btn btn-secondary btn-sm" id="btnSaveBackend">Connect Backend</button>
+                    <span id="backendStatusTag" class="status-tag">Checking...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header class="header">
+            <div class="badge">
+                <span class="badge-dot"></span>
+                <span>Offline MP3 Studio Converter &bull; v2.0</span>
+            </div>
+            <h1 class="title">Bulk <span class="gradient-text">MP3 Downloader</span></h1>
+            <p class="subtitle">Gaano ke naam ya YouTube URLs box me dalein, aur sabhi songs ki high-quality MP3 ek sath bulk me download karein.</p>
+        </header>
+
+        <!-- Main Card -->
+        <div class="card main-card">
+            <div class="card-header">
+                <div class="header-left">
+                    <span class="icon">📝</span>
+                    <h2>Songs List Box</h2>
+                </div>
+                <div class="badge-count" id="songCountBadge">0 songs detected</div>
+            </div>
+
+            <!-- Input Box (Textarea) -->
+            <div class="textarea-wrapper">
+                <textarea 
+                    id="songsInput" 
+                    placeholder="Enter song names or YouTube links (one per line)...&#10;&#10;Example:&#10;Imagine Dragons - Believer&#10;Arijit Singh - Kesariya&#10;Alan Walker - Faded&#10;Diljit Dosanjh - Lover&#10;https://www.youtube.com/watch?v=..."
+                    rows="8"
+                    spellcheck="false"
+                ></textarea>
+            </div>
+
+            <!-- Helper toolbar -->
+            <div class="helper-toolbar">
+                <div class="left-actions">
+                    <button type="button" class="btn btn-ghost" id="btnSample">
+                        <span>✨</span> Load Sample Songs
+                    </button>
+                    <button type="button" class="btn btn-ghost" id="btnPaste">
+                        <span>📋</span> Paste Clipboard
+                    </button>
+                    <button type="button" class="btn btn-ghost text-danger" id="btnClear">
+                        <span>🗑️</span> Clear Box
+                    </button>
+                </div>
+            </div>
+
+            <!-- Options Grid -->
+            <div class="options-grid">
+                <!-- Quality -->
+                <div class="option-item">
+                    <label for="bitrateSelect">🎧 Audio Quality</label>
+                    <div class="select-wrapper">
+                        <select id="bitrateSelect">
+                            <option value="320" selected>⚡ 320 kbps (HQ Studio Quality)</option>
+                            <option value="256">🎵 256 kbps (High Quality)</option>
+                            <option value="192">🔊 192 kbps (Standard Quality)</option>
+                            <option value="128">📦 128 kbps (Compact Size)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Parallel Downloads (Speed) -->
+                <div class="option-item">
+                    <label for="concurrencySelect">🚀 Download Speed (Parallel Threads)</label>
+                    <div class="select-wrapper">
+                        <select id="concurrencySelect">
+                            <option value="5" selected>⚡ 5 Songs at a time (Fast & Recommended)</option>
+                            <option value="8">🔥 8 Songs at a time (Super Fast for 500+ list)</option>
+                            <option value="10">🚀 10 Songs at a time (Maximum Speed)</option>
+                            <option value="3">⚖️ 3 Songs at a time (Moderate)</option>
+                            <option value="1">🐢 1 Song at a time (Sequential)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Number Prefix Option -->
+                <div class="option-item">
+                    <label for="prefixCheckbox">🔢 Number Prefix in Filename</label>
+                    <div class="checkbox-card">
+                        <label class="custom-checkbox">
+                            <input type="checkbox" id="prefixCheckbox" checked>
+                            <span class="checkmark"></span>
+                            <span class="cb-label">Add Serial Number (e.g. <b>001 - Title.mp3</b>)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Folder -->
+                <div class="option-item">
+                    <div class="label-with-reset">
+                        <label for="folderInput">📁 Save Folder Path</label>
+                        <button type="button" class="btn-text-link" id="btnResetFolder" title="Reset to default download folder">↺ Reset to Default</button>
+                    </div>
+                    <div class="folder-input-group">
+                        <input type="text" id="folderInput" placeholder="Download folder path (e.g. C:\Users\...)">
+                        <button type="button" class="btn btn-secondary btn-icon-only" id="btnBrowseFolder" title="Browse and pick folder on PC">
+                            📁 Browse
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-icon-only" id="btnOpenFolder" title="Open Folder in Windows Explorer">
+                            📂 Open
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Download Button -->
+            <div class="action-footer">
+                <button type="button" class="btn btn-primary btn-large" id="btnStartDownload">
+                    <span class="btn-icon">⚡</span>
+                    <span class="btn-text">Download All MP3s</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Progress Card (Hidden by default, shown when running) -->
+        <div class="card progress-card" id="progressCard" style="display: none;">
+            <div class="progress-header">
+                <div>
+                    <h3 id="overallStatusTitle">Downloading Queue...</h3>
+                    <p id="overallStatusSub" class="sub-text">Please wait while songs are searched and converted</p>
+                </div>
+                <div class="progress-actions">
+                    <button type="button" class="btn btn-secondary" id="btnOpenDownloadsFolder">
+                        <span>📁</span> Open Downloads Folder
+                    </button>
+                    <button type="button" class="btn btn-danger-outline" id="btnCancelDownload">
+                        <span>🛑</span> Cancel
+                    </button>
+                </div>
+            </div>
+
+            <!-- Overall Progress Bar -->
+            <div class="overall-progress-bar-wrap">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="overallProgressFill" style="width: 0%;"></div>
+                </div>
+                <div class="progress-stats">
+                    <span id="overallProgressStats">0 / 0 Completed</span>
+                    <span id="overallPercent">0%</span>
+                </div>
+            </div>
+
+            <!-- Songs Queue List -->
+            <div class="queue-list" id="queueList">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>100% Free &bull; No Ad Popups &bull; Direct YouTube Audio Stream to MP3 via yt-dlp & FFmpeg</p>
+            <p class="credit-text">Crafted with ❤️ by <a href="https://hiteshkhambhoo.in" target="_blank" rel="noopener" class="credit-link"><strong>Hitesh Khambhoo</strong> (hiteshkhambhoo.in)</a></p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

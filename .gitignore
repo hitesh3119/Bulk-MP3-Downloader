@@ -1,0 +1,23 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Downloads output folder
+downloads/*
+!downloads/.gitkeep
+
+# Audio / media files
+*.mp3
+*.m4a
+*.webm
+*.opus
+*.part
+*.ytdl
+
+# OS / IDE
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
