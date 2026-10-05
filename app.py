@@ -228,10 +228,19 @@ def run_download_job(job_id: str, songs: List[str], bitrate: str, output_dir: st
             'progress_hooks': [progress_hook],
             'js_runtimes': {'node': {}},
             'windowsfilenames': True,
-            'retries': 3,
-            'fragment_retries': 3,
+            'retries': 5,
+            'fragment_retries': 5,
             'socket_timeout': 30,
             'nocheckcertificate': True,
+            'extractor_args': {
+                'youtube': {
+                    'player_client': ['android', 'ios', 'web', 'mweb'],
+                }
+            },
+            'http_headers': {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+                'Accept-Language': 'en-US,en;q=0.9',
+            }
         }
 
         try:
